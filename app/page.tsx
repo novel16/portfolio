@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { experience, profile, projects, skills, socials } from "./portfolio-data";
-import { ProjectIllustration } from "./project-illustration";
 
 const navigation = [
   { id: "portfolio", label: "Work" },
@@ -68,8 +67,74 @@ function ProjectTags({ project }: { project: Project }) {
   );
 }
 
+// Keep the live site and the available public source together.
+function ProjectActions({ project, featured = false }: { project: Project; featured?: boolean }) {
+  return (
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <ProjectLink project={project} featured={featured} />
+      {"source" in project && (
+        <a href={project.source.href} target="_blank" rel="noopener noreferrer" className="project-link text-muted"
+          aria-label={project.title + " — " + project.source.label + " (opens in a new tab)"}>
+          {project.source.label} <Icon name="external" />
+        </a>
+      )}
+    </div>
+  );
+}
+
+// Show the supplied screenshot uncropped, with access to the full-resolution original.
+function ProjectScreenshot({ project }: { project: Project }) {
+  if (!("screenshot" in project)) return null;
+  const screenshot = project.screenshot;
+  return (
+    <figure className="min-w-0">
+      <a href={screenshot.src} target="_blank" rel="noopener noreferrer"
+        className="screenshot-link block overflow-hidden"
+        aria-label={"Open " + project.title + " screenshot at full size (opens in a new tab)"}>
+        <Image src={screenshot.src} alt={screenshot.alt} width={screenshot.width} height={screenshot.height}
+          sizes="(max-width: 767px) 100vw, (max-width: 1279px) 55vw, 680px"
+          className="h-auto w-full" />
+      </a>
+      <figcaption className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-3 font-mono text-[0.6rem] leading-relaxed text-muted sm:px-5">
+        <span>{screenshot.caption}</span>
+        <span aria-hidden="true" className="text-brand">Open full screenshot ↗</span>
+      </figcaption>
+    </figure>
+  );
+}
+
+// Native disclosures keep case-study content accessible without client JavaScript.
+function ProjectDetails({ project }: { project: Project }) {
+  return (
+    <details className="project-details border-t border-line">
+      <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-sm font-medium text-brand">
+        <span>Project details<span className="sr-only">: {project.title}</span></span>
+        <span aria-hidden="true" className="details-toggle font-mono text-xl font-light" />
+      </summary>
+      <div className="grid gap-6 pt-1 pb-6 sm:grid-cols-2">
+        <div>
+          <h4 className="eyebrow mb-2">The problem</h4>
+          <p className="text-sm leading-[1.8] text-muted">{project.details.problem}</p>
+        </div>
+        <div>
+          <h4 className="eyebrow mb-2">The solution</h4>
+          <p className="text-sm leading-[1.8] text-muted">{project.details.solution}</p>
+        </div>
+        <div className="sm:col-span-2">
+          <h4 className="eyebrow mb-3">Key features</h4>
+          <ul className="grid list-disc gap-x-8 gap-y-2 pl-4 text-sm leading-relaxed text-muted marker:text-brand sm:grid-cols-2">
+            {project.details.features.map((feature) => <li key={feature}>{feature}</li>)}
+          </ul>
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export default function Home() {
-  const featured = projects[0];
+  const featuredProjects = projects.filter((project) => "featured" in project && project.featured);
+  const otherScreenshots = projects.filter((project) => "screenshot" in project && !("featured" in project));
+  const moreProjects = projects.filter((project) => !("screenshot" in project));
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>
@@ -154,36 +219,40 @@ export default function Home() {
             </a>
           </div>
 
-          <article className="featured-project group grid overflow-hidden rounded-2xl border border-line bg-surface md:grid-cols-[.9fr_1.1fr]">
-            <div className="order-2 flex flex-col items-start p-6 md:order-0 md:p-8 lg:p-10">
-              <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand/25 px-2.5 py-1 font-mono text-[0.6rem] tracking-wider text-brand uppercase">
-                <span aria-hidden="true" className="size-1.5 rounded-full bg-brand" />Featured project
-              </span>
-              <p className="eyebrow text-muted">{featured.category}</p>
-              <h3 className="mt-2 text-3xl font-semibold tracking-tight lg:text-4xl">{featured.title}</h3>
-              <p className="mt-4 mb-5 max-w-md text-sm leading-[1.8] text-muted">{featured.description}</p>
-              <ProjectTags project={featured} />
-              <div className="mt-7"><ProjectLink project={featured} featured /></div>
-            </div>
-            <div className="relative flex min-w-0 items-center overflow-hidden border-b border-line bg-[#142b24] md:border-b-0 md:border-l">
-              <ProjectIllustration kind={featured.art} />
-              <span className="absolute right-4 bottom-3 font-mono text-[0.55rem] tracking-[0.13em] text-[#aac8bc] uppercase">Interface illustration</span>
-            </div>
-          </article>
-
-          <div className="mt-5 grid gap-5 md:grid-cols-2">
-            {[projects[1], projects[2]].map((project) => (
-              <article key={project.title} className="group overflow-hidden rounded-2xl border border-line bg-surface">
-                <div className="project-cover relative overflow-hidden border-b border-line">
-                  <ProjectIllustration kind={project.art} />
-                  <span className="absolute right-4 bottom-3 font-mono text-[0.55rem] tracking-[0.13em] text-muted uppercase">Project illustration</span>
+          <div className="space-y-5">
+            {featuredProjects.map((project) => (
+              <article key={project.title} className="featured-project overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="grid md:grid-cols-[.85fr_1.15fr]">
+                  <div className="p-6 md:p-8">
+                    <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand/25 px-2.5 py-1 font-mono text-[0.6rem] tracking-wider text-brand uppercase">
+                      <span aria-hidden="true" className="size-1.5 rounded-full bg-brand" />Featured project
+                    </span>
+                    <p className="eyebrow text-muted">{project.category}</p>
+                    <h3 className="mt-2 text-3xl font-semibold tracking-tight lg:text-4xl">{project.title}</h3>
+                    <p className="mt-4 mb-5 max-w-md text-sm leading-[1.8] text-muted">{project.description}</p>
+                    <ProjectTags project={project} />
+                    <div className="mt-6"><ProjectActions project={project} featured /></div>
+                  </div>
+                  <div className="grid min-w-0 content-center bg-canvas/40 md:border-l md:border-line">
+                    <ProjectScreenshot project={project} />
+                  </div>
                 </div>
-                <div className="flex flex-col p-6 lg:p-7">
+                <div className="px-6 md:px-8"><ProjectDetails project={project} /></div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-5 grid items-start gap-5 md:grid-cols-2">
+            {otherScreenshots.map((project) => (
+              <article key={project.title} className="overflow-hidden rounded-2xl border border-line bg-surface">
+                <div className="border-b border-line bg-canvas/40"><ProjectScreenshot project={project} /></div>
+                <div className="flex flex-col px-6 pt-6 lg:px-7">
                   <p className="eyebrow text-muted">{project.category}</p>
                   <h3 className="mt-2 text-2xl font-semibold tracking-tight">{project.title}</h3>
                   <p className="mt-3 mb-5 text-sm leading-[1.8] text-muted">{project.description}</p>
                   <ProjectTags project={project} />
-                  <div className="mt-5 border-t border-line pt-2"><ProjectLink project={project} /></div>
+                  <div className="mt-4 mb-3"><ProjectActions project={project} /></div>
+                  <ProjectDetails project={project} />
                 </div>
               </article>
             ))}
@@ -191,10 +260,10 @@ export default function Home() {
 
           <div className="mt-10">
             <p className="eyebrow mb-4 text-muted">More things I’ve built</p>
-            {projects.slice(3).map((project, index) => (
+            {moreProjects.map((project, index) => (
               <article key={project.title} className="grid items-start gap-x-6 gap-y-3 border-t border-line py-6 md:grid-cols-[.85fr_1fr] lg:grid-cols-[.9fr_1.1fr_auto]">
                 <div className="flex gap-4">
-                  <span aria-hidden="true" className="mt-1 font-mono text-xs text-brand">{"0" + (index + 4)}</span>
+                  <span aria-hidden="true" className="mt-1 font-mono text-xs text-brand">{"0" + (index + 5)}</span>
                   <div>
                     <h3 className="text-lg leading-snug font-semibold tracking-tight">{project.title}</h3>
                     <p className="mt-1 font-mono text-[0.65rem] text-muted">{project.category}</p>
@@ -203,6 +272,7 @@ export default function Home() {
                 <div>
                   <p className="mb-3 text-sm leading-relaxed text-muted">{project.description}</p>
                   <ProjectTags project={project} />
+                  <div className="mt-4"><ProjectDetails project={project} /></div>
                 </div>
                 <div className="md:col-start-2 lg:col-start-auto"><ProjectLink project={project} /></div>
               </article>

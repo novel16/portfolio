@@ -21,58 +21,119 @@ export const socials = [
 
 export const projects = [
   {
-    art: "pos",
+    featured: true,
     title: "Tindatala Store",
     category: "Point of sale",
     description:
       "A point-of-sale platform for sari-sari stores to record sales, manage inventory, and track customer credit (utang). It also handles subscription billing through PayMongo.",
     tags: ["Laravel 12", "React", "TypeScript", "MySQL", "AWS EC2", "Cloudflare Workers"],
     href: "https://tindatala.store",
+    screenshot: {
+      src: "/projects/tindatala-dashboard.png", width: 1888, height: 970,
+      alt: "Tindatala store dashboard showing sales, low-stock items, customer credit and cash collections.",
+      caption: "Store overview & daily collections",
+    },
+    details: {
+      problem: "Small stores need to keep daily sales, stock levels and customer utang in sync. Cash received and sales made also need to be tracked separately when customers buy on credit.",
+      solution: "A shared store workspace brings point of sale, inventory and customer balances together. The overview separates cash sales from credit repayments and highlights items that need restocking.",
+      features: ["Point of sale and sales history", "Product catalog, categories and inventory", "Customer utang and repayment records", "Daily collections and low-stock overview", "Subscription billing through PayMongo"],
+    },
   },
   {
-    art: "booking",
     title: "Booking Website",
     category: "Reservations",
     description:
-      "A booking platform with real-time reservations, schedule management, and an admin dashboard to manage bookings.",
+      "A resort booking platform that brings room reservations, availability, guest payments, and day-to-day operations into one workspace.",
     tags: ["Laravel 12", "Livewire 3"],
     href: "https://booking-system.infinityfreeapp.com",
+    source: { href: "https://github.com/novel16/lara-booking-app", label: "Source code" },
+    screenshot: {
+      src: "/projects/booking-dashboard.png", width: 1892, height: 975,
+      alt: "Resort booking dashboard showing arrivals, departures, available rooms and balances due.",
+      caption: "Resort operations dashboard",
+    },
+    details: {
+      problem: "Resort staff need to coordinate room availability, upcoming stays and guest payments. Reservation changes and event requests add more work to the same daily schedule.",
+      solution: "A Laravel and Livewire booking flow connects guest reservations with a staff workspace. An occupancy calendar, booking records and reports give staff a shared view of rooms, arrivals and outstanding balances.",
+      features: ["Room availability search and guest booking", "Occupancy calendar and reservation management", "Guest payment records and invoices", "Event bookings and date-change requests", "Operations reports and CSV exports"],
+    },
   },
   {
-    art: "commerce",
     title: "Laravel Ecommerce",
     category: "Local commerce",
     description:
       "A storefront for a small business on Bantayan Island, with tools for managing products, tracking orders, and staying in touch with customers.",
-    tags: ["Laravel", "E-commerce"],
+    tags: ["Laravel 10", "Livewire", "E-commerce"],
     href: "https://azul150.infinityfreeapp.com/",
+    source: { href: "https://github.com/novel16/Laravel9Ecommerce", label: "Source code" },
+    screenshot: {
+      src: "/projects/ecommerce-dashboard.png", width: 1887, height: 951,
+      alt: "Azul Ecommerce admin dashboard with order totals, products, categories and brands.",
+      caption: "Catalog & order management",
+    },
+    details: {
+      problem: "A small business needs an online catalog that customers can browse and a way for staff to manage products and follow orders through fulfillment.",
+      solution: "The storefront connects product browsing, wishlists and checkout with an admin workspace for the catalog and orders. Customers can review their orders while staff manage order status and invoices.",
+      features: ["Product search, categories, brands and variants", "Customer accounts, wishlist and cart", "Checkout and customer order history", "Admin order status and invoice management", "Catalog, user and store settings"],
+    },
   },
   {
-    art: "heritage",
+    title: "Hatid",
+    category: "Delivery management",
+    description:
+      "A delivery management app for riders to organize parcels and weekly batches, track deliveries, record collections and seller remittances, and review earnings reports.",
+    tags: ["Next.js", "TypeScript", "Laravel 13", "Tailwind CSS", "Cloudflare Workers"],
+    href: "https://hatid-frontend.meawkimeawchavez1996.workers.dev/",
+    source: { href: "https://github.com/novel16/hatid-frontend", label: "Frontend source" },
+    screenshot: {
+      src: "/projects/hatid-workspace.png", width: 1891, height: 957,
+      alt: "Hatid rider route workspace with manual customer selection and a maps-not-configured notice.",
+      caption: "Rider workspace & manual stop selection",
+    },
+    details: {
+      problem: "Riders need to organize parcels across delivery batches while keeping customer collections, rider fees and money owed to sellers clearly separated.",
+      solution: "A Next.js rider workspace connects to a Laravel API for parcel intake, delivery outcomes and collection records. Seller remittances and earnings reports make the money trail visible alongside the delivery workflow.",
+      features: ["Weekly batches, parcel entry and delivery status", "Customer and seller directories", "Cash and manually confirmed GCash records", "Seller remittances and earnings reports", "Browser draft recovery and manual stop selection"],
+    },
+  },
+  {
     title: "Pamana — Cebu Built Heritage",
     category: "Culture & preservation",
     description:
       "I built the REST API and connected it to the frontend for a public website documenting Cebu’s built heritage.",
     tags: ["PHP OOP", "REST API", "JavaScript Fetch API"],
     href: "https://pamana.org/",
+    details: {
+      problem: "A public heritage website needs a reliable way to deliver its documented information to the frontend.",
+      solution: "I built the REST API in object-oriented PHP and connected the frontend through the JavaScript Fetch API to serve Cebu's built-heritage content.",
+      features: ["PHP OOP backend", "REST API development", "Frontend integration with Fetch API"],
+    },
   },
   {
-    art: "portal",
     title: "Employee Portal System",
     category: "Internal tools",
     description:
       "A role-based employee portal for attendance, profiles, and internal communications. I built backend logic and responsive interfaces.",
     tags: ["PHP OOP", "Tailwind CSS", "Fetch API"],
     note: "Private company project",
+    details: {
+      problem: "Employee attendance, profiles and internal communications need a shared workspace with access appropriate to each user's role.",
+      solution: "I built backend logic and responsive interfaces for a role-based employee portal, using PHP OOP and Tailwind CSS with Fetch API integration.",
+      features: ["Role-based access", "Attendance and employee profiles", "Internal communications", "Responsive interfaces"],
+    },
   },
   {
-    art: "mail",
     title: "AI Gmail Assistant",
     category: "Workflow automation",
     description:
       "Built a Gmail assistant at Glophics PH that sorts customer inquiries, prepares quotations, and drafts replies for staff to review.",
     tags: ["Google Apps Script", "Laravel", "AI function calling"],
     note: "Internal workflow",
+    details: {
+      problem: "Customer service staff need to sort incoming email inquiries, prepare quotations and draft replies for review.",
+      solution: "I connected Google Apps Script and Laravel with AI function calling to classify inquiries, process quotation requests and prepare draft responses for staff to review.",
+      features: ["Customer inquiry classification", "Quotation request processing", "Draft email responses", "Staff review before sending"],
+    },
   },
 ] as const;
 

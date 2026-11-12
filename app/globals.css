@@ -69,18 +69,8 @@
     border-radius: 17px;
   }
 
-  .project-grid {
-    background-image: radial-gradient(currentColor 1px, transparent 1px);
-    background-size: 16px 16px;
-    mask-image: linear-gradient(135deg, #000, transparent 80%);
-    opacity: 0.14;
-  }
-  .project-cover { --cover-height: 15rem; height: var(--cover-height); }
-  .project-cover > div { height: 100%; display: grid; align-items: center; }
-  .project-cover svg { max-height: 15rem; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .project-cover svg { transition: transform 250ms ease; }
-    article:hover .project-cover svg { transform: translateY(-3px); }
-  }
+  .screenshot-link:hover { @apply border-brand/60; }
+  .screenshot-link:focus-visible { outline-color: var(--color-brand); }
+  .details-toggle::before { content: "+"; }
+  .project-details[open] > summary .details-toggle::before { content: "−"; }
 }
