@@ -190,3 +190,17 @@ export const skills = [
   { label: "Styling & CMS", mark: "UI", tools: ["Tailwind CSS", "Bootstrap", "CSS / Sass", "WordPress"] },
   { label: "Tools & delivery", mark: "OP", tools: ["Git / GitHub", "Jira", "Jenkins", "AWS EC2", "Web hosting"] },
 ];
+
+export const certifications = [
+  {
+    title: "AWS Certified Cloud Practitioner",
+    course: "CLF-C02 - English",
+    issuer: "TESDA Online Program",
+    type: "Certificate of completion",
+    completed: "November 12, 2026",
+    date: "2026-11-12",
+    code: "TaFPuxDhho",
+    pdf: "/certificates/tesda-aws-cloud-practitioner.pdf",
+    preview: "/certificates/tesda-aws-cloud-practitioner.webp",
+  },
+] as const;

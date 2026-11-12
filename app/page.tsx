@@ -1,11 +1,12 @@
 import Image from "next/image";
-import { experience, profile, projects, skills, socials } from "./portfolio-data";
+import { certifications, experience, profile, projects, skills, socials } from "./portfolio-data";
 
 const navigation = [
   { id: "portfolio", label: "Work" },
   { id: "experience", label: "Experience" },
   { id: "about", label: "About" },
   { id: "skills", label: "Skills" },
+  { id: "certifications", label: "Certificates" },
 ];
 
 const iconPaths = {
@@ -144,7 +145,7 @@ export default function Home() {
           <nav aria-label="Main navigation"
             className="order-last mt-4 flex w-full items-center justify-between gap-2 border-t border-line md:order-0 md:mt-0 md:w-auto md:gap-7 md:border-0">
             {navigation.map(({ id, label }) => (
-              <a key={id} href={"#" + id} className="nav-link">{label}</a>
+              <a key={id} href={"#" + id} className="nav-link text-xs sm:text-sm">{label}</a>
             ))}
           </nav>
           <a href="#contact" className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-brand md:justify-self-end">
@@ -342,10 +343,55 @@ export default function Home() {
           </section>
         </section>
 
+        <section id="certifications" aria-labelledby="certifications-title" className="shell border-t border-line py-16 lg:py-24">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">04 / Continuing to learn</p>
+              <h2 id="certifications-title" className="section-title">Certifications & learning.</h2>
+            </div>
+            <p className="max-w-xs text-sm leading-[1.8] text-muted">Courses completed as I keep building my skills.</p>
+          </div>
+          <div className="space-y-5">
+            {certifications.map((certificate) => (
+              <article key={certificate.code} className="grid overflow-hidden rounded-2xl border border-line bg-surface md:grid-cols-2">
+                <a href={certificate.pdf} target="_blank" rel="noopener noreferrer"
+                  className="screenshot-link grid content-center border-b border-line bg-white md:border-r md:border-b-0"
+                  aria-label={"Open " + certificate.title + " course completion certificate (PDF, opens in a new tab)"}>
+                  <Image src={certificate.preview} alt={"TESDA certificate of completion awarded to Novel Prias Chavez for " + certificate.title + " (" + certificate.course + "), " + certificate.completed + "."}
+                    width={1400} height={990} sizes="(max-width: 767px) 100vw, 600px" className="h-auto w-full" />
+                </a>
+                <div className="flex flex-col justify-center p-6 lg:p-9">
+                  <p className="eyebrow">{certificate.issuer}</p>
+                  <h3 className="mt-3 text-2xl leading-tight font-semibold tracking-tight lg:text-3xl">{certificate.title}</h3>
+                  <p className="mt-2 font-mono text-xs text-muted">{certificate.course}</p>
+                  <span className="mt-5 w-fit rounded-full border border-brand/25 px-3 py-1.5 text-xs text-brand">{certificate.type}</span>
+                  <dl className="mt-5 space-y-3 text-sm">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
+                      <dt className="text-muted">Completed</dt>
+                      <dd><time dateTime={certificate.date}>{certificate.completed}</time></dd>
+                    </div>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1">
+                      <dt className="text-muted">Certificate code</dt>
+                      <dd className="font-mono">{certificate.code}</dd>
+                    </div>
+                  </dl>
+                  <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    <a href={certificate.pdf} target="_blank" rel="noopener noreferrer" className="project-link"
+                      aria-label={"View " + certificate.title + " certificate (PDF, opens in a new tab)"}>
+                      View certificate <Icon name="external" />
+                    </a>
+                    <a href={certificate.pdf} download className="button-secondary"><Icon name="download" />Download PDF</a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section id="contact" aria-labelledby="contact-title" className="shell pb-12 lg:pb-16">
           <div className="contact-panel grid items-center gap-10 rounded-2xl bg-brand p-6 text-[#10372b] sm:p-10 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:p-12">
             <div>
-              <p className="eyebrow text-[#285b49]">04 / Let’s connect</p>
+              <p className="eyebrow text-[#285b49]">05 / Let’s connect</p>
               <h2 id="contact-title" className="mt-4 text-[2.6rem] leading-[1.04] font-semibold tracking-[-0.045em] sm:text-5xl lg:text-[3.5rem]">
                 Let’s build<br />something good.
               </h2>

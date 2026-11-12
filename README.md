@@ -13,7 +13,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Update the content
 
-- `app/portfolio-data.ts`: contact details, projects, roles, and skills.
+- `app/portfolio-data.ts`: contact details, projects, roles, skills, and certificates.
+- `public/certificates/`: original certificate PDFs and lightweight previews. Certificate entries include the issuing organization, credential type, completion date and certificate code; the TESDA entry is a course completion certificate.
 - `app/page.tsx`: the page layout and introduction.
 - `public/projects/`: the four supplied, unedited project screenshots. Project image dimensions, captions, problem/solution descriptions, features and public source links live in `app/portfolio-data.ts`. Set `featured: true` to give a screenshot project a wide featured card. Screenshot links open the original at full size; native project details work without JavaScript.
 - `app/opengraph-image.tsx`: the charcoal and teal social sharing card, generated with Next.js.
