@@ -16,10 +16,11 @@ const geistMono = Geist_Mono({
 const title = profile.name + " | Full-stack Web Developer";
 
 export const metadata: Metadata = {
-  metadataBase: process.env.SITE_URL ? new URL(process.env.SITE_URL) : undefined,
+  metadataBase: new URL(process.env.SITE_URL || "https://portfolio.meawkimeawchavez1996.workers.dev"),
+  alternates: { canonical: "/" },
   title,
   description: profile.description,
-  openGraph: { title, description: profile.description, type: "website", locale: "en_PH" },
+  openGraph: { title, description: profile.description, type: "website", locale: "en_PH", url: "/" },
   twitter: { card: "summary_large_image", title, description: profile.description },
 };
 

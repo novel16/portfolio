@@ -19,10 +19,23 @@ Open [http://localhost:3000](http://localhost:3000).
 - `app/opengraph-image.tsx`: the charcoal and teal social sharing card, generated with Next.js.
 - `public/frontend/assets/images/profile.jpg` and `public/frontend/assets/cv/novelchavez-cv.pdf`: portrait and public CV. Keep private reference details out of the public CV.
 
-Use `npm run lint` to check the source and `npm run build` to produce the production build. After building, `npm run start` serves the production site.
+Use `npm run check` for lint and TypeScript checks. `npm run build` and `npm run start` remain available for a normal Next.js production build.
+
+## Cloudflare deployment
+
+- Production site: https://portfolio.meawkimeawchavez1996.workers.dev
+- Worker: `portfolio`, configured in `cloudflare.config.ts`.
+- Source: `novel16/portfolio`, production branch `main`, repository root `/`.
+- Cloudflare Workers Builds installs from `package-lock.json`, runs `npm run check`, then `npm run deploy:cloudflare` to build with vinext and deploy the Worker.
+- Builds use Node.js `24.22.1`; previews are disabled. Future pushes to `main` automatically trigger deployment. Check the Worker’s Builds history for progress and failures; a failed build leaves the previous deployment active.
+- Authentication is managed by Cloudflare's GitHub integration and stored build credential, never by a token committed to this repository.
+
+For a local Cloudflare build, run `npm run build:vinext`. To preview that build, run `npm run start:vinext`. To deploy manually after `cf auth login`, run `npm run check` followed by `npm run deploy:cloudflare`. Use Node.js 24.22.1 or later. On Windows machines using an installed corporate/local root certificate, set `NODE_USE_SYSTEM_CA=1` for the terminal instead of disabling TLS verification.
+
+Next.js development remains `npm run dev`. The Cloudflare build uses `vite.config.ts` and PostCSS for Tailwind; the existing Next.js build uses its Turbopack CSS loader. Original screenshots are served by the Worker without a separate Cloudflare Images binding.
 
 ## Social sharing
 
-Set `SITE_URL` to the portfolio's actual public origin (including `https://`) in the deployment build environment so social image URLs use the correct domain. Locally, it can be `http://localhost:3000` in `.env.local`. Next.js supplies its default metadata origin when this variable is omitted. The public portfolio domain has not been set in this checkout.
+The metadata origin defaults to the production `workers.dev` URL above. Set `SITE_URL` to override it when moving to a custom domain, and verify the generated canonical and social image URLs after deployment. Locally, it can be `http://localhost:3000` in `.env.local`.
 
 The project descriptions are based on the supplied screenshots, local project source and original portfolio content. Hatid's screenshot shows the manual stop-selection view with maps not configured; it does not demonstrate live routing. The Hatid source link points to its frontend repository. Work experience retains the original supplied text.
